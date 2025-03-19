@@ -13,7 +13,6 @@ import { connectDB, closeDB } from "./config/database.js";
 import { logger } from "./utils/logger.js";
 import { env } from "./config/env.js";
 import dotenv from "dotenv";
-import { reloadScheduledReminders } from "./utils/scheduler.js";
 
 dotenv.config();
 const app = express();
@@ -137,7 +136,6 @@ async function initialize() {
     messageHandler.setClient(whatsappClient.getClient());
     messageHandler.start();
 
-    await reloadScheduledReminders();
     app.listen(env.PORT, () => {
       logger.debug(`Server is running on port ${env.PORT}`);
     });
