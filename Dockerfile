@@ -1,9 +1,8 @@
-# Use a Node.js image with a specific version
+# Dockerfile
 FROM node:20-bullseye
 
 # Install Chrome dependencies and yt-dlp
-RUN apt-get update \
-    && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     chromium \
     chromium-driver \
     fonts-ipafont-gothic \
@@ -16,34 +15,33 @@ RUN apt-get update \
     python3 \
     python3-pip \
     curl \
-    --no-install-recommends \
-    && pip3 install --no-cache-dir yt-dlp \
-    && rm -rf /var/lib/apt/lists/*
+    --no-install-recommends && \
+    pip3 install --no-cache-dir yt-dlp && \
+    rm -rf /var/lib/apt/lists/*
 
-# Set up working directory
+# Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package.json ./
+# Create sessions directory and set permissions for the 'node' user
+RUN mkdir -p /app/sessions && chown -R node:node /app/sessions
 
-# Install dependencies
+# Copy package files and install dependencies
+COPY package.json ./
 RUN npm install
 
-# Copy the application and necessary files
-COPY . . 
+# Copy the rest of the application
+COPY . .
 
-# Set correct permissions
+# Ensure all files in /app are owned by 'node'
 RUN chown -R node:node /app
 
-# Set environment variables for Puppeteer
+# Environment variables for Puppeteer
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # Switch to non-root user
 USER node
 
-# Expose port
+# Expose port and start the application
 EXPOSE 7860
-
-# Start the application
 CMD ["npm", "run", "start"]
