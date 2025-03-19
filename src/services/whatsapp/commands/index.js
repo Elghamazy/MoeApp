@@ -10,7 +10,6 @@ import gis from "async-g-i-s";
 import https from "https";
 import axios from "axios";
 import WhatsAppWeb from "whatsapp-web.js";
-import { scheduleReminder } from "../../../utils/scheduler.js";
 
 const { MessageMedia } = WhatsAppWeb;
 
