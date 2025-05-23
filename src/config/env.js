@@ -12,6 +12,7 @@ const envSchema = z.object({
 
   GEMINI_API_KEY: z.string(),
   HF_TOKEN: z.string(),
+  PROXY_URL: z.string(),
   API_KEY: z.string().min(32, "API key must be at least 32 characters"),
 
   MONGODB_URI: z.string().url("Invalid MongoDB URI"),

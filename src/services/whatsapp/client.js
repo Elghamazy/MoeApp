@@ -139,6 +139,12 @@ class WhatsAppClient {
    */
   async initialize() {
     try {
+      const args = [...CONFIG.PUPPET_ARGS];
+      if (env.PROXY_URL) {
+        args.push(`--proxy-server=${env.PROXY_URL}`);
+        logger.info(`Using proxy: ${env.PROXY_URL}`);
+      }
+
       this.client = new Client({
         authStrategy: new LocalAuth({
           clientId: CONFIG.CLIENT_ID,
@@ -147,10 +153,10 @@ class WhatsAppClient {
         puppeteer: {
           headless: true,
           executablePath: puppeteer.executablePath(),
-          args: CONFIG.PUPPET_ARGS,
+          args,
         },
       });
-
+      
       this.setupEventHandlers();
       await this.client.initialize();
       await this.initializeCommands();
