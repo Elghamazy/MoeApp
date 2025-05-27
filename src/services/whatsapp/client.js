@@ -156,7 +156,7 @@ class WhatsAppClient {
           args,
         },
       });
-      
+
       this.setupEventHandlers();
       await this.client.initialize();
       await this.initializeCommands();
