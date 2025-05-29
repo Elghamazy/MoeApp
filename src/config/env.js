@@ -1,5 +1,4 @@
 import { z } from "zod";
-// Import logger, but we'll be cautious using it during this file's immediate execution.
 import { logger as mainLogger } from "../utils/logger.js";
 import dotenv from "dotenv";
 dotenv.config();
@@ -13,12 +12,7 @@ const envSchema = z.object({
 
   GEMINI_API_KEY: z.string(),
   HF_TOKEN: z.string(),
-  // If PROXY_URL is optional, modify its schema accordingly:
-  // PROXY_URL: z.string().optional(),
-  // or with a default if it should always have a string value:
-  // PROXY_URL: z.string().default(""),
-  // For this example, I'll assume it might be optional or you'll ensure it's in your .env
-  PROXY_URL: z.string().optional(), // Changed to optional as an example. Adjust if it's truly required.
+  PROXY_URL: z.string().optional(),
   API_KEY: z.string().min(32, "API key must be at least 32 characters"),
 
   MONGODB_URI: z.string().url("Invalid MongoDB URI"),
