@@ -95,6 +95,10 @@ app.get("/", (req, res) => {
   res.sendFile(`${process.cwd()}/public/index.html`);
 });
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 app.post("/api/auth/pair", [validateApiKey, apiLimiter], async (req, res) => {
   const { phone } = req.body;
   if (!phone) {
